@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBA Okulları | Güvenli Veli Giriş Portalı</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #0b132b;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            transition: background 0.3s ease;
+        }
+
+        /* --- 1. ETAP: MBA OKULLARI AKADEMİK PORTAL --- */
+        .portal-card {
+            background: #ffffff;
+            width: 95%;
+            max-width: 480px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-top: 12px solid #003366;
+            padding: 35px 25px;
+            position: relative;
+            z-index: 10;
+            transition: all 0.5s ease;
+        }
+        .mba-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .mba-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #003366;
+            letter-spacing: 1px;
+        }
+        .mba-tag {
+            font-size: 0.8rem;
+            color: #d4af37;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .info-grid {
+            background: #f4f7fa;
+            border-left: 4px solid #003366;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        .main-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #003366 0%, #001f42 100%);
+            color: white;
+            border: none;
+            padding: 18px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 51, 102, 0.3);
+            transition: all 0.3s;
+        }
+
+        /* --- 2. ETAP: ALARM VE UYARI EKRANI --- */
+        .alarm-screen {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000;
+            z-index: 20;
+            color: #ff003c;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 30px;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .alarm-title {
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 0 0 20px #ff003c;
+            margin-bottom: 20px;
+            animation: pulse 0.2s infinite alternate;
+        }
+
+        /* --- 3. ETAP: MATRIX KOD YAĞMURU --- */
+        canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+            display: none;
+            opacity: 0.25;
+        }
+
+        /* --- 4. ETAP: SİBER TERMİNAL VE NEON SÜRPRIZ --- */
+        .cyber-terminal {
+            display: none;
+            position: relative;
+            z-index: 30;
+            width: 90%;
+            max-width: 550px;
+            background: rgba(5, 5, 5, 0.9);
+            border: 2px solid #00ff3c;
+            box-shadow: 0 0 40px rgba(0, 255, 60, 0.4);
+            border-radius: 15px;
+            padding: 30px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .neon-heart-center {
+            font-size: 4rem;
+            color: #ff0055;
+            text-shadow: 0 0 20px #ff0055, 0 0 40px #ff0055;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: heartBeat 0.6s infinite alternate;
+        }
+        .matrix-text {
+            color: #00ff3c;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            text-shadow: 0 0 5px #00ff3c;
+            white-space: pre-wrap;
+        }
+
+        /* --- AMANSZ ANIMASYONLAR --- */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.05); opacity: 0.8; }
+        }
+        @keyframes heartBeat {
+            from { transform: scale(1); }
+            to { transform: scale(1.15); }
+        }
+        .glitch-flash {
+            animation: flashBg 0.1s infinite;
+        }
+        @keyframes flashBg {
+            0%, 100% { background-color: #000; }
+            50% { background-color: #3a000c; }
+        }
+        .screen-shake {
+            animation: shake 0.4s ease-in-out infinite;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0); }
+            20% { transform: translate(-8px, 8px); }
+            40% { transform: translate(8px, -8px); }
+            60% { transform: translate(-8px, -8px); }
+            80% { transform: translate(8px, 8px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MATRIX ARKA PLAN -->
+    <canvas id="matrixCanvas"></canvas>
+
+    <!-- ETAP 1: MBA RESMİ SİSTEM -->
+    <div class="portal-card" id="portalContainer">
+        <div class="mba-header">
+            <div class="mba-title">MBA OKULLARI</div>
+            <div class="mba-tag">Eğitim Yönetim Portalı</div>
+        </div>
+        <div class="info-grid">
+            <strong>Öğrenci Adı:</strong> Ali<br>
+            <strong>Dönem Raporu:</strong> 6. Sınıf Yıl Sonu Başarı Belgesi<br>
+            <strong>Erişim Durumu:</strong> Veli Onayı Gerekli (Kritik Alan)
+        </div>
+        <button class="main-btn" onclick="startUltimateHack()">Raporu İndir ve Dijital İmzala</button>
+    </div>
+
+    <!-- ETAP 2: BÜYÜK ALARM EKRANI -->
+    <div class="alarm-screen" id="alarmBox">
+        <div class="alarm-title">⚠️ CRITICAL ERROR ⚠️</div>
+        <h2>GÜVENLİK DUVARI ÇÖKTÜ!</h2>
+        <p style="margin-top:10px;">Sisteme dışarıdan izinsiz siber müdahale yapılıyor...</p>
+    </div>
+
+    <!-- ETAP 4: SİBER DOĞUM GÜNÜ TERMİNALİ -->
+    <div class="cyber-terminal" id="cyberTerminal">
+        <div class="neon-heart-center">❤️</div>
+        <div class="matrix-text" id="terminalWriter"></div>
+    </div>
+
+    <script>
+        // Matrix Yağmuru Altyapısı
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+        let columns, rainDrops;
+
+        function initMatrix() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            columns = canvas.width / 16;
+            rainDrops = Array(Math.floor(columns)).fill(1);
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00ff3c';
+            ctx.font = '15px monospace';
+
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = String.fromCharCode(0x30A0 + Math.random() * 96);
+                ctx.fillText(text, i * 16, rainDrops[i] * 16);
+                if (rainDrops[i] * 16 > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        }
+
+        // AKILALMAZ HACK SÜRECİ BAŞLANGICI
+        function startUltimateHack() {
+            // 1. Kartı kaybet ve alarmı başlat
+            document.getElementById('portalContainer').style.display = 'none';
+            const alarmBox = document.getElementById('alarmBox');
+            alarmBox.style.display = 'flex';
+            document.body.classList.add('glitch-flash', 'screen-shake');
+
+            // 2. İki saniye sonra alarmı kapat, matrix yağmurunu ve terminali getir
+            setTimeout(() => {
+                document.body.classList.remove('glitch-flash', 'screen-shake');
+                alarmBox.style.display = 'none';
+                document.body.style.backgroundColor = '#000';
+                
+                // Matrix'i aç
+                canvas.style.display = 'block';
+                initMatrix();
+                setInterval(drawMatrix, 30);
+
+                // Terminal kutusunu getir
+                document.getElementById('cyberTerminal').style.display = 'block';
+                startTyping();
+            }, 2000);
+        }
+
+        // Terminal Tıkır Tıkır Yazma İşlemi
+        const cyberMessage = `[+] MBA Sunucularına sızıldı...\n[+] Güvenlik protokolleri bypass edildi...\n[+] 'Ali' isimli kullanıcının komutu çalıştırılıyor...\n\n[!] DİKKAT: Sistem anahtarı değiştirildi!\n\n>>> CANIM ANNEM! ❤️\n\nKarne notları, sistemler, ödevler hepsi bahane! Bugün dünyanın en harika, en güçlü ve en akıllı annesinin doğum günü! \n\nBenim arkamda durduğun, beni her zaman desteklediğin için teşekkür ederim. İyi ki doğdun, iyi ki varsın. Seni her şeyden çok seviyorum! 🪐💥👑`;
+        
+        let charIndex = 0;
+        function startTyping() {
+            if (charIndex < cyberMessage.length) {
+                document.getElementById("terminalWriter").innerHTML += cyberMessage.charAt(charIndex);
+                charIndex++;
+                setTimeout(startTyping, 30);
+            }
+        }
+
+        window.addEventListener('resize', initMatrix);
+    </script>
+</body>
+</html>
